@@ -29,6 +29,7 @@ public class ActUserComum extends AppCompatActivity {
         initTela();
     }
 
+    //pega os dados do usuario vindo da tela anterior
     private void initTela(){
         Bundle parametro = getIntent().getExtras();
 
@@ -39,22 +40,32 @@ public class ActUserComum extends AppCompatActivity {
         idUser = parametro.getInt("id");
     }
 
+    //atualiza os dados do usuario, atribui o valor "0" para flag "op" para realizar a atualização
     public void comumEvtAtualizar(View v){
         if(!isCampoVazio()){
             if(confirmaSenha()){
+                op = 0; //atualizar
                 alert("Tem certeza que deseja atualizar esse cadastro");
             }
         }
     }
-
+    //exclui os dados do usuario, atribui o valor "1" para flag "op" para realizar a exclusão
+    //verifica se o usuario que está logado não está tentando excluir ele mesmo
     public void comumEvtExcluir(View v){
-        alert("Tem certeza que deseja excluir esse cadastro?");
+        if(ActPrincipal.idAdm == idUser){
+            exibeToast("Não é possivel excluir, este usuário está logado");
+        }else{
+            op = 1; //excluir
+            alert("Tem certeza que deseja excluir esse cadastro?");
+        }
     }
-
+    // volta para a tela anterior, Activity ActUserAdmin ou ActPrincipal.
     public void comumEvtVoltar(View v){
        voltarTela();
     }
 
+    // volta para a tela anterior, Activity ActUserAdmin quando um usuario adminstrador estiver
+    // logado ou ActPrincipal quando um usuario comum estiver logado.
     private void voltarTela(){
         Intent tela;
 
@@ -68,6 +79,7 @@ public class ActUserComum extends AppCompatActivity {
         startActivity(tela);
     }
 
+    //um alerte de confirmação para as ações de exclusão ou alteração
     private void alert(String mensagem){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -78,7 +90,7 @@ public class ActUserComum extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 switch (op){
-                    case 1: // atualizar
+                    case 0: // atualizar
 
                         if(bdUser.alterar(idUser,
                                 edtNome.getText().toString(), edtSenha.getText().toString())){
@@ -88,7 +100,7 @@ public class ActUserComum extends AppCompatActivity {
                         }
 
                         break;
-                    case 0: // excluir
+                    case 1: // excluir
 
                         if(bdUser.excluir(idUser)){
                             exibeToast("Usuario excluido");
@@ -112,6 +124,7 @@ public class ActUserComum extends AppCompatActivity {
         alert.show();
     }
 
+    //verifica se os campos estão vazios
     private boolean isCampoVazio(){
         if(edtNome.getText().toString().isEmpty() ||
                 edtSenha.getText().toString().isEmpty() ||
@@ -125,6 +138,7 @@ public class ActUserComum extends AppCompatActivity {
         return false;
     }
 
+    //realiza a confirmação de senha
     private boolean confirmaSenha(){
         if(edtSenha.getText().toString().equals(edtConfirSenha.getText().toString())){
             return true;
@@ -134,6 +148,7 @@ public class ActUserComum extends AppCompatActivity {
         return false;
     }
 
+    // FEEDBACK
     private void exibeToast(String texto){
         Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
     }

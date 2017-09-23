@@ -12,6 +12,7 @@ public class ActPrincipal extends AppCompatActivity {
     private EditText edtNome, edtSenha;
     private Cursor cursor;
     private BDUser bdUser;
+    public static int idAdm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class ActPrincipal extends AppCompatActivity {
             // faça o login * PRIMEIRO ACESSO = TRUE, SE PERFIL FOI 1 é ADM = TRUE
 
             if(cursor.getInt(cursor.getColumnIndexOrThrow(Banco.PERFIL)) == 1){
+
+                ActPrincipal.idAdm = cursor.getInt(cursor.getColumnIndexOrThrow(Banco.ID_USER));
                 iniciaTelaUser(false,true);// não é primeiro acesso, tela de user adm
             }else{
                 iniciaTelaUser(false,false);// nao é primeiro acesso, tela de user comum
@@ -37,7 +40,7 @@ public class ActPrincipal extends AppCompatActivity {
         }else{
 
             if(isUserPadrao()){
-
+                // o usuario digitou admin - admin
                 if(isTabelaVazia()){
                     //faca o login de usuario padrao
                     iniciaTelaUser(true,true); // primeiro acesso, tela de user adm
@@ -68,14 +71,10 @@ public class ActPrincipal extends AppCompatActivity {
         return cursor.getCount() > 0;
     }
 
+    // verifica se o usuario digitou admin, admin
     private boolean isUserPadrao(){
         return edtNome.getText().toString().equals("admin")
                 && edtSenha.getText().toString().equals("admin");
-    }
-
-
-    private void exibeToast(String texto){
-        Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
     }
 
     // se for tela de admin TRUE, se for tela de usuario comum FALSE
@@ -96,6 +95,12 @@ public class ActPrincipal extends AppCompatActivity {
 
         startActivity(tela);
         limpaCampo();
+    }
+
+    /* >>>>>>>>> FEEDBACK & LIMPAR CAMPOS <<<<<<<<<<<<<<<<
+     * >>>>>>>>> FEEDBACK & LIMPAR CAMPOS <<<<<<<<<<<<<<<<*/
+    private void exibeToast(String texto){
+        Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
     }
 
     private void limpaCampo(){

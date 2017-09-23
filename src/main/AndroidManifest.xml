@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActUserAdmin" />
+        <activity android:name=".ActUserAdmin" android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActUserComum"></activity>
     </application>
 

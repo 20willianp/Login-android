@@ -39,7 +39,7 @@ public class BDUser {
         }
     }
 
-    //altara o usuario
+    //altera o usuario
     public boolean alterar(int id, String nome, String senha){
         ContentValues valores = new ContentValues();
         String where = banco.ID_USER+" = "+id;

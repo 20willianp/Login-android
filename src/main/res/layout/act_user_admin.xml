@@ -73,8 +73,9 @@
         android:layout_alignRight="@+id/adm_edt_senha"
         android:layout_below="@+id/adm_edt_senha"
         android:layout_marginTop="13dp"
+        android:defaultFocusHighlightEnabled="false"
         android:ems="10"
-        android:hint="Confirmação de senha"
+        android:hint="Confirme sua senha"
         android:inputType="textPassword" />
 
     <Switch
@@ -89,14 +90,14 @@
         android:text="Administrador" />
 
     <Button
-        android:id="@+id/adm_btn_salvar"
+        android:id="@+id/adm_btn_voltar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/swt_admin"
         android:layout_alignEnd="@+id/adm_edt_conf_senha"
         android:layout_alignRight="@+id/adm_edt_conf_senha"
-        android:onClick="admEvtSalvar"
-        android:text="Salvar" />
+        android:onClick="admEvtVoltar"
+        android:text="Voltar" />
 
     <ListView
         android:id="@+id/adm_lv_dados"
@@ -106,5 +107,15 @@
         android:layout_alignStart="@+id/swt_admin"
         android:layout_below="@+id/swt_admin"
         android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/adm_btn_salvar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/adm_btn_voltar"
+        android:layout_toLeftOf="@+id/adm_btn_voltar"
+        android:layout_toStartOf="@+id/adm_btn_voltar"
+        android:onClick="admEvtSalvar"
+        android:text="Salvar" />
 
 </RelativeLayout>

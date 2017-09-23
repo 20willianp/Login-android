@@ -40,21 +40,25 @@ public class ActUserAdmin extends AppCompatActivity {
         lvDados = (ListView) findViewById(R.id.adm_lv_dados);
 
         bdUser = new BDUser(getBaseContext());
+
         primeiroAcesso();
         carregaListView();
         eventLvDados();
     }
 
     public void admEvtSalvar(View v){
-        if(!isCampoEmpety()){
-            if(confirmaSenha()){
+        if(!isCampoEmpety()){ //verifica se os campos estão vazios
+            if(confirmaSenha()){ //confirma a senha do usuario
 
-                if(bdUser.inserir(edtNome.getText().toString(),edtSenha.getText().toString(),convertBoolInt())){
+                if(bdUser.inserir(
+                        edtNome.getText().toString(),
+                        edtSenha.getText().toString(),
+                        convertBoolInt())){
 
                     exibeToast("Usuario cadastrado");
-                    swtAdmin.setSelected(false);
-                    carregaListView();
-                    limpaCampos();
+                    swtAdmin.setSelected(false); //volta o componente para posição padrao
+                    carregaListView(); // atualiza a listView
+                    limpaCampos(); // limpa os campos
 
                     if(primeiroAcesso){
                         startActivity(new Intent(this,ActPrincipal.class));
@@ -67,8 +71,13 @@ public class ActUserAdmin extends AppCompatActivity {
         }
     }
 
+    //faz logof
+    public void admEvtVoltar(View v){
+        startActivity(new Intent(this,ActPrincipal.class));
+    }
+
     private void carregaListView(){
-        cursor = bdUser.consulta(null,null);
+        cursor = bdUser.consulta(null,null); //retorna todos os dados cadastrados
 
         String [] campos = new String [] {Banco.NOME_USER, Banco.SENHA_USER};
         int [] idTxt = new int[] {R.id.txt_list_user,R.id.txt_list_senha};
@@ -78,6 +87,7 @@ public class ActUserAdmin extends AppCompatActivity {
         lvDados.setAdapter(adpt);
     }
 
+    // quando o usuario clicar, é passado os dados que foram clicados para a activity ActUserComum
     private void eventLvDados(){
         lvDados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,6 +105,7 @@ public class ActUserAdmin extends AppCompatActivity {
         });
     }
 
+    //verifica se é o primeiro acesso do usuario no sistema
     private void primeiroAcesso(){
         Bundle parametro = getIntent().getExtras();
         primeiroAcesso = parametro.getBoolean("primeiroAcesso");
